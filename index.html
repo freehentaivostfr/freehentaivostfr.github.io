@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sound Tag</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000000;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .sound-button {
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: none;
+            cursor: pointer;
+            font-size: 80px;
+            color: black;
+            transition: all 0.15s ease;
+        }
+
+        .sound-button:hover {
+            background: #cccccc;
+        }
+
+        .sound-button:active {
+            transform: scale(0.96);
+        }
+    </style>
+</head>
+<body>
+    <button class="sound-button" id="soundButton">
+        🔊
+    </button>
+
+    <script>
+        const button = document.getElementById('soundButton');
+        
+        // Preload image and audio
+        const img = new Image();
+        img.src = 'gif.gif';
+        
+        const audio = new Audio();
+        audio.src = 'sound.mp3';
+        audio.volume = 1.0;
+        audio.load();
+        
+        function playLoudSound() {
+            // Enter fullscreen
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen().catch(err => console.log('Fullscreen error:', err));
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            }
+            
+            // Replace entire page with image
+            document.body.innerHTML = '';
+            document.body.style.margin = '0';
+            document.body.style.padding = '0';
+            document.body.style.overflow = 'hidden';
+            
+            const fullImg = document.createElement('img');
+            fullImg.src = 'gif.gif';
+            fullImg.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                object-fit: cover;
+                z-index: 9999;
+            `;
+            document.body.appendChild(fullImg);
+            
+            // Play audio
+            audio.play().catch(err => console.log('Audio error:', err));
+        }
+
+        button.addEventListener('click', playLoudSound);
+    </script>
+</body>
+</html>
